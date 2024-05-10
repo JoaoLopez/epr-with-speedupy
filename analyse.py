@@ -30,7 +30,7 @@ import matplotlib.gridspec as gridspec
 
 rcParams['legend.loc'] = 'best'
 rcParams['legend.fontsize'] = 8.5
-rcParams['legend.isaxes'] = False
+# rcParams['legend.isaxes'] = False
 rcParams['figure.facecolor'] = 'white'
 rcParams['figure.edgecolor'] = 'white'
 
@@ -78,9 +78,8 @@ def analyse(spin=PARTICLE_SPIN):
     CHSH = []
     QM = []
        
-    print "\nExpectation values"
-    print "%10s %10s %10s %10s %10s" % (
-            'Settings', 'N_ab', '<AB>_sim', '<AB>_qm', 'StdErr_sim')
+    print("\nExpectation values")
+    print("%10s %10s %10s %10s %10s" % ('Settings', 'N_ab', '<AB>_sim', '<AB>_qm', 'StdErr_sim'))
     for k,(i,j) in enumerate(setting_pairs):
         As = (adeg==i)
         Bs = (bdeg==j)
@@ -90,8 +89,8 @@ def analyse(spin=PARTICLE_SPIN):
         Cab_sim = (Ai*Bj).mean()
         Cab_qm = QMFunc(numpy.radians(j-i), 0.5)
         desig = '%g, %g' % (i, j) 
-        print "%10s %10d %10.3f %10.3f %10.3f" % (desig, Ts.sum(), 
-                    Cab_sim, Cab_qm, numpy.abs(Cab_sim/numpy.sqrt(Ts.sum())))
+        print("%10s %10d %10.3f %10.3f %10.3f" % (desig, Ts.sum(), 
+                    Cab_sim, Cab_qm, numpy.abs(Cab_sim/numpy.sqrt(Ts.sum()))))
         CHSH.append(Cab_sim)
         QM.append(Cab_qm )
       
@@ -100,10 +99,10 @@ def analyse(spin=PARTICLE_SPIN):
     SIM_SAME = sel_same.sum() > 0.0 and (alice[sel_same,1]*bob[sel_same,1]).mean() or numpy.nan
     SIM_DIFF = sel_oppo.sum() > 0.0 and (alice[sel_oppo,1]*bob[sel_oppo,1]).mean() or numpy.nan
        
-    print
-    print "\tSame Angle <AB> = %+0.2f" % (SIM_SAME)
-    print "\tOppo Angle <AB> = %+0.2f" % (SIM_DIFF)
-    print "\tCHSH: <= 2.0, Sim: %0.3f, QM: %0.3f" % (abs(CHSH[0]-CHSH[1]+CHSH[2]+CHSH[3]), abs(QM[0]-QM[1]+QM[2]+QM[3]))
+    print()
+    print("\tSame Angle <AB> = %+0.2f" % (SIM_SAME))
+    print("\tOppo Angle <AB> = %+0.2f" % (SIM_DIFF))
+    print("\tCHSH: <= 2.0, Sim: %0.3f, QM: %0.3f" % (abs(CHSH[0]-CHSH[1]+CHSH[2]+CHSH[3]), abs(QM[0]-QM[1]+QM[2]+QM[3])))
               
     X, Y = numpy.meshgrid(o_angles, o_angles)
     
@@ -120,7 +119,7 @@ def analyse(spin=PARTICLE_SPIN):
     ax2.plot_surface(X, Y, Corr, rstride=1, cstride=1, cmap=cm.coolwarm)
     ax2.view_init(elev=45., azim=45)
     plt.savefig('analysis.png', dpi=90)
-    plt.show()
+    plt.show(block=False)
     
 def QMFunc(a, spin):
     if spin == 0.5:

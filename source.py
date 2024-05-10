@@ -46,7 +46,7 @@ class Source(object):
 
     def run(self, duration=60.0):
         start_t = time.time()
-        print "Generating particle spin-{0} particle pairs".format(self.n*0.5)
+        print("Generating particle spin-{0} particle pairs".format(self.n*0.5))
         count = 0
         while time.time() - start_t <= duration:
             self.emit()
@@ -55,13 +55,13 @@ class Source(object):
             sys.stdout.flush()
         self.save('SrcLeft.npy.gz', numpy.array(self.left))
         self.save('SrcRight.npy.gz', numpy.array(self.right))
-        print
-        print "%d particles in 'SrcLeft.npy.gz'" % (len(self.left))
-        print "%d particles in 'SrcRight.npy.gz'" % (len(self.right))
+        print()
+        print("%d particles in 'SrcLeft.npy.gz'" % (len(self.left)))
+        print("%d particles in 'SrcRight.npy.gz'" % (len(self.right)))
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "Usage: \n\t source.py <duration in seconds> <spin>\n"
+        print("Usage: \n\t source.py <duration in seconds> <spin>\n")
     else:
         if len(sys.argv) == 3:
             spin = float(sys.argv[2])

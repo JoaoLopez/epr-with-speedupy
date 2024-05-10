@@ -50,18 +50,18 @@ class Station(object):
 
 
     def run(self, angles):
-        print "Detecting particles for %s's arm" % self.name
+        print("Detecting particles for %s's arm" % self.name)
         st = time.time()
         infos = zip(particles, numpy.random.choice(angles, size=len(particles)))
         pool = mp.Pool()
         results  = pool.map(detect_particle,  infos)
-        print "Done: {0} particles detected in {1:5.1f} sec!".format(len(particles), time.time() -st)
+        print("Done: {0} particles detected in {1:5.1f} sec!".format(len(particles), time.time() -st))
         self.results = numpy.array(results)
         self.save("%s.npy.gz" % self.name)
         
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "Usage: \n\t station.py <ArmSrcFile> seting1,setting2,setting3,...\n"
+        print("Usage: \n\t station.py <ArmSrcFile> seting1,setting2,setting3,...\n")
     else:
         if len(sys.argv) == 2: 
             angles = numpy.linspace(0, 2*numpy.pi, 33)
