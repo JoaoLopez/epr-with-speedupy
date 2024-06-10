@@ -34,7 +34,6 @@ rcParams['legend.fontsize'] = 8.5
 rcParams['figure.facecolor'] = 'white'
 rcParams['figure.edgecolor'] = 'white'
 
-ANGLE_RESOLUTION  = 3.75
 PARTICLE_SPIN = 1.0
 
 def analyse(spin=PARTICLE_SPIN):
@@ -52,6 +51,12 @@ def analyse(spin=PARTICLE_SPIN):
     bdeg  = val(numpy.degrees(bob[:,0]))
              
     # Find all settings used in simulation
+    angles, o_angles, Eab, Corr = find_all_settings_used_in_simulation(abdeg, adeg, bdeg, alice, bob)
+
+    # Display results
+    display_results(abdeg, adeg, bdeg, alice, bob, angles, o_angles, Eab, Corr, spin)
+
+def find_all_settings_used_in_simulation(abdeg, adeg, bdeg, alice, bob):
     angles = numpy.append(numpy.unique(abdeg), [360.])
     Eab = numpy.zeros_like(angles)
     Nab = numpy.zeros_like(angles)
@@ -69,8 +74,10 @@ def analyse(spin=PARTICLE_SPIN):
         sel = (abdeg == a)|(abdeg == 360-a)
         Nab[i] = sel.sum()
         Eab[i] = Nab[i] > 0.0  and (alice[sel,1]*bob[sel,1]).mean() or 0.0
+
+    return angles, o_angles, Eab, Corr
             
-    # Display results    
+def display_results(abdeg, adeg, bdeg, alice, bob, angles, o_angles, Eab, Corr, spin):
     setting_pairs = list(itertools.product(numpy.unique(adeg), numpy.unique(bdeg)))
     if len(setting_pairs) > 4:
         setting_pairs = [(0, 22.5), (0, 67.5),(45, 22.5),(45, 67.5)]
@@ -134,6 +141,7 @@ def BellFunc(spin):
         return [0.0, 90.0, 180.0, 270.0, 360.0], [1.0, -1.0, 1.0, -1.0,  1.0]
     
 def val(x):
+    ANGLE_RESOLUTION  = 3.75
     return numpy.round(x/ANGLE_RESOLUTION)*ANGLE_RESOLUTION
         
 
